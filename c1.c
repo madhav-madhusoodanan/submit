@@ -85,7 +85,7 @@ int main(void) {
     pkt.client = 0;
 
     // initialize file
-    FILE* fp = fopen("./input.txt", "r");
+    FILE* fp = fopen("./id.txt", "r");
     int isEnded = 0;
 
     while(!isEnded){

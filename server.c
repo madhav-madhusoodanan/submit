@@ -51,6 +51,34 @@ void fill(int client, char* packet_data){
     strcat(data[client], packet_data);
 }
 
+void interlace(){
+    int comma_count = 0;
+    char* token;
+    for (int i = 0; i < strlen(data_1); i++) {
+        if (data_1[i] == ',') {
+            comma_count++;
+        }
+    }
+    char* char_ptrs [2 * comma_count];
+    token = strtok(data_2, ",");
+    for(int i = 0; i < comma_count; i++){
+        char_ptrs[2 * i + 1] = token;
+        token = strtok(NULL, ",");
+    }
+
+    token = strtok(data_1, ",");
+    for(int i = 0; i < comma_count; i++){
+        char_ptrs[2 * i] = token;
+        token = strtok(NULL, ",");
+    }
+
+    FILE* fp = fopen("./list.txt", "w+");
+    for(int i = 0; i < 2 * comma_count; i++){
+        fprintf(fp, "%s,", char_ptrs[i]);
+    }
+    fclose(fp);
+}
+
 int main(void) {
     struct sockaddr_in socket_addr_1, socket_addr_2,  si_other;
     int socket_fd, i, slen = sizeof(si_other), recv_len;
@@ -95,6 +123,5 @@ int main(void) {
             
     } 
     close(socket_fd);
-    // close(socket2fd);
     return 0;
 }
